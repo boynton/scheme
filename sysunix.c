@@ -63,10 +63,12 @@ char *strerror(int i) {
 #define S_ISREG(mode)	(((mode) & (S_IFMT)) == (S_IFREG))
 #endif /* NeXT */
 
-#ifdef APPLE
-#define SCM_DIR "/Users/lee/lib/scheme"
+#define STRLIT(s) #s
+#define STRLIT2(s) STRLIT(s)
+#ifdef SCMLIB
+#define SCM_DIR  STRLIT2(SCMLIB)
 #else
-#define SCM_DIR "/home/lee/lib/scheme"
+#define SCM_DIR "."
 #endif
 #define BOOT_FILE "scheme.scm"
 #define REPL_FILE "repl.scm"
@@ -77,6 +79,7 @@ char *strerror(int i) {
 #define CODESIZE 128
 
 static char *home = "";
+static char *schemelib = "";
 static struct timeval launch_time;
 
 static int interrupts_enabled = 1;
@@ -135,7 +138,7 @@ int main(int argc, char *argv[]) {
 		s = REPL_FILE;
 	gettimeofday(&launch_time,NULL);
 	init_scheme(HEAPSIZE,STACKSIZE,CODESIZE);
-	define("system:*search-path*",list1(make_string(SCM_DIR)));
+	define("system:*search-path*",list1(make_string(schemelib)));
 	define("system:*repl-filename*",make_string(s));
 	execute_file(BOOT_FILE);
 	quit(0);
@@ -835,6 +838,9 @@ static void primop_socket_close(long argc) {
 extern void init_system(void) {
 	home = getenv("HOME");
 	if (!home) home = "";
+        schemelib = getenv("SCHEME_LIB");
+        if (!schemelib)
+            schemelib = SCM_DIR;
 	define("system:*tab-size*",MAKE_FIXNUM(8));
 	define_primop("system:host-os",primop_host_os,0,0);
 	define_primop("system:pwd",primop_pwd,0,0);

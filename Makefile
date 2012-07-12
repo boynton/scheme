@@ -7,13 +7,11 @@
 ###################################################################
 
 NAME = scheme
-
-# installation directories
-BIN_DIR = $(HOME)/bin
-SCM_DIR = $(HOME)/lib/scheme
+EXECUTABLE = $(NAME)
+LIBRARY = ./lib
 
 # flags, configuration
-CONFIG_FLAGS = -g -DAPPLE -arch x86_64 -DX86_64
+CONFIG_FLAGS = -g -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
 OPTIMIZATIONS =  -O3 -pipe -fomit-frame-pointer
 CFLAGS = $(OPTIMIZATIONS) $(CONFIG_FLAGS) $(EXTENSIONS) $(VERSION)
 LDFLAGS = $(CFLAGS)
@@ -38,22 +36,22 @@ SCMFILES = scheme.scm r4rs.scm repl.scm macros.scm config.scm \
 
 OFILES = $(CFILES:.c=.o)
 
-DERIVED = $(NAME) *.o
+DERIVED = $(NAME) *.o lib
 
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
 
-$(NAME): $(OFILES)
+all:: $(NAME) $(LIBRARY)
+
+$(EXECUTABLE): $(OFILES)
 	$(CC) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
 
 $(OFILES): $(HFILES)
 
+$(LIBRARY)::
+	mkdir -p $(LIBRARY)
+	cp -p $(SCMFILES) $(LIBRARY)
+
 clean::
-	/bin/rm -f $(DERIVED) *~ *.bak
+	/bin/rm -rf $(DERIVED) *~ *.bak
 
-$(SCM_DIR) $(BIN_DIR):
-	mkdir $@
-
-install:: $(SCM_DIR) $(BIN_DIR) $(NAME) $(SCMFILES)
-	cp -p $(SCMFILES) $(SCM_DIR)
-	install -s $(NAME) $(BIN_DIR)
