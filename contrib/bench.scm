@@ -16,6 +16,16 @@
 ; ! On 6/16/2004, I measured the AMD 2400 with a 32MB heap, and it was exactly 100 times faster than the Tosh 1950 (1992).
 ; ! That is: 100x in 12 years.
 ;
+;;*** EVEN NEWER: 2012-09-26, changed the benchmark to create and sort a 100000 number list, and a single pi calculation of 1000 digits, and do that 5 times
+;; this appears to run about 15x slower than the previous "new" numbers.
+;;
+;; Intel Core i7 2.80GHz/OSX10.8.1               2.33   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1 (12,000 times faster than Mac plus)
+;; Intel Core 2 Duo 2.0GHz/OSX10.8.1             3.47   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
+;; Intel Core i7 2.80GHz/OSX10.8.1               8.03   * JScheme-0.1, (macroexpanded), 64 bit openjdk 1.7.0-u7-b30, -Xmx128m
+;;
+;; Dell Pentium 100, MSVC 4.0, NT 4.0          150.00   * (estimated) this is the reference machine.
+;; Mac Plus                                  27990.00   * (estimated)
+;;
 ;**** NEW: change the benchmark to sort 30000 numbers instead of
 ; 10000, and the second pi calculation is now to 518 digits in groups
 ; of 4, not 200 digits in groups of 5. This scales the number back up
@@ -23,7 +33,8 @@
 ; but full type checking and argument count checking is enabled.
 ;
 ; *** Optimized C implementation
-; Intel Core i7 2.80GHz/OSX10.6.2               0.14   * leescheme-5.9, 64 bit executable, xcode 3.2.1, -O3 -fomit-frame-pointer -arch x86_64 -DX86_64
+; Intel Core i7 2.80GHz/OSX10.8.1               0.14   * leescheme-5.9, 64 bit executable, GCC 4.2.1, -O3 -fomit-frame-pointer -arch x86_64 -DX86_64
+; Intel Core i7 2.80GHz/OSX10.8.1               0.15   * leescheme-5.9, 64 bit executable, Apple clang 4.0, -O3 -fomit-frame-pointer -arch x86_64 -DX86_64
 ; AMD 1138/RH73/Bigloo2.5a -O6                  0.18   * 10k executable
 ; Intel Core 2 Duo2.16GHz/OSX10.4.8/gcc4.0.1    0.24   * leescheme-5.9, 32 bit executable, xcode -O3, MacBookPro v2 2.16GHz
 ; Intel Core 2 Duo2.00GHz/OSX10.6               0.25   * leescheme-5.9, 64 bit executable, ClangLLVM v1.0 -O3, MacMini v3 2GHz DDR3
@@ -35,6 +46,8 @@
 ; Intel Core 2 Duo 1.83GHz/OSX10.5.1            0.3    * leescheme-5.9, 32 bit executable, xcode -O3, Mini 1.83
 ; AMD 1900/gcc3.2.2/chicken-1.0                 0.3    * -optimize-level 3 -block, 23k executable
 ; Intel Core 2 Duo 1.83GHz/OSX10.4.11           0.31   * leescheme-5.9, 64 bit, GCC 4 -O3 -fomitframepointer, Mini 1.83
+; Intel Core i7 2.80GHz/OSX10.8.2               0.31   * JScheme-0.1 (5 iteration average), 64 bit openjdk 1.7.0-u7-b30
+; Intel Core i7 2.80GHz/OSX10.6.2               0.32   * JScheme-0.1 (5 iteration average), 64 bit java 1.7.0_07
 ; AMD 3000+/Win2k/vc2005                        0.34   * 32 bit executable, 32m heap
 ; AMD 2400/win2k/msvc5sp3                       0.38   ** normal optimized build, but with a 32m heap (it never gc's)
 ; Intel Core i7 2.80GHz/OSX10.6.2               0.40   * JScheme-0.1 (5 iteration average), 64 bit java 1.6.0_20
@@ -194,16 +207,27 @@
 ;; End of Jaffer's nagware
 ;;
 
-(define foo (do ((i 0 (+ i 1)) (l '() (cons i l))) ((>= i 30000) l)))
-(define (benchmark)      (sort foo <)
+(define old-foo (do ((i 0 (+ i 1)) (l '() (cons i l))) ((>= i 30000) l)))
+(define (old-benchmark)
+  (sort old-foo <)
+  (sort old-foo >)
+  (pi 100 5)
+  (pi 518 4))
+
+(define (make-foo n) (do ((i 0 (+ i 1)) (l '() (cons i l))) ((>= i n) l)))
+(define (benchmark)
+  (let ((foo (make-foo 100000)))
+    (sort foo <)
     (sort foo >)
-    (pi 100 5)
-    (pi 518 4))
+    (pi 1000 5)))
 
-(let ((t0 (system:timestamp)))
-	(benchmark)
-	(print (/ (- (system:timestamp) t0) 1000.0) " seconds")) 
-
-
+(let ((iterations 5) (t0 (system:timestamp)))
+  (let loop ((i iterations))
+    (if (> i 0)
+        (begin
+          (benchmark)
+          (loop (- i 1)))))
+  (print (/ (- (system:timestamp) t0)  1000.0) " seconds total")
+  (print (/ (- (system:timestamp) t0) (* iterations 1000.0)) " secondsper iteration"))
 
 ;;EOF

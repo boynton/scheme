@@ -125,7 +125,7 @@ void garbage_collect(long min_space) {
     old_interrupt = enable_interrupts(0);
     /* switch heap space */
     gc_count++;
-    printf("[GC]\n");
+    //    printf("[GC]\n");
     heap += heap_size;
     if (heap >= max_heap)
 	heap = min_memory;

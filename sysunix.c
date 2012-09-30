@@ -74,7 +74,8 @@ char *strerror(int i) {
 #define REPL_FILE "repl.scm"
 
 //#define HEAPSIZE 32768
-#define HEAPSIZE 100000
+#define HEAPSIZE 131072
+//#define HEAPSIZE 1000000
 #define STACKSIZE 64
 #define CODESIZE 128
 

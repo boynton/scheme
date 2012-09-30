@@ -11,11 +11,11 @@ EXECUTABLE = $(NAME)
 LIBRARY = ./lib
 
 # flags, configuration
-CONFIG_FLAGS = -g -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
-OPTIMIZATIONS =  -O3 -pipe -fomit-frame-pointer
+CONFIG_FLAGS = -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
+OPTIMIZATIONS = -O3
 CFLAGS = $(OPTIMIZATIONS) $(CONFIG_FLAGS) $(EXTENSIONS) $(VERSION)
 LDFLAGS = $(CFLAGS)
-CC = cc
+CC = gcc
 
 CFILES = scheme.c heap.c runtime.c compiler.c macros.c \
 	logical.c symbol.c string.c number.c list.c vector.c proc.c \
