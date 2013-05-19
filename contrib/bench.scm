@@ -19,7 +19,7 @@
 ;;*** EVEN NEWER: 2012-09-26, changed the benchmark to create and sort a 100000 number list, and a single pi calculation of 1000 digits, and do that 5 times
 ;; this appears to run about 15x slower than the previous "new" numbers.
 ;;
-;; Intel Core i7 2.80GHz/OSX10.8.1               2.33   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1 (12,000 times faster than Mac plus)
+;; Intel Core i7 2.80GHz/OSX10.8.1               1.90   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1 (12,000 times faster than Mac plus)
 ;; Intel Core 2 Duo 2.0GHz/OSX10.8.1             3.47   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; Intel Core i7 2.80GHz/OSX10.8.1               8.03   * JScheme-0.1, (macroexpanded), 64 bit openjdk 1.7.0-u7-b30, -Xmx128m
 ;;
