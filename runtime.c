@@ -158,11 +158,13 @@ long *funcall(object proc, long argc, long *pc) {
 			goto not_a_proc_error;
 		}
 	} else if (OPCODE_P(proc)) {
+		object tmp;
 		opcode op = OPCODE_VALUE(proc);
 		if (op == OPCODE_CALLCC) {
 			if (argc != 1) goto argc_error;
 			gc_tmp5 = *sp++;
-			*--sp = make_continuation(environment,pc,sp);
+                        tmp = make_continuation(environment,pc,sp);
+			*--sp = tmp;
 			proc = gc_tmp5;
 			goto funcall_again;
 		} else if (op == OPCODE_APPLY) {
@@ -233,7 +235,8 @@ long *tailcall(object tmp, long i) {
 			pc = FRAME_PC(environment);
 			environment = FRAME_PREVIOUS(environment);
 			gc_tmp5 = tmp;
-			*--sp = make_continuation(environment,pc,sp);
+                        tmp = make_continuation(environment,pc,sp);
+                        *--sp = tmp;
 			tmp = gc_tmp5;
 			goto tail_funcall;
 		} else if (op == OPCODE_APPLY) {
@@ -464,7 +467,8 @@ void run(long *initial_ops) {
 	    
 	case OPCODE_CALLCC:
 	    gc_tmp5 = *sp++;
-	    *--sp = make_continuation(environment,pc+1,sp);
+            tmp = make_continuation(environment,pc+1,sp);
+	    *--sp = tmp;
 	    pc = funcall(gc_tmp5,1,pc+1);
 	    break;
 
