@@ -7,8 +7,8 @@
 ###################################################################
 
 NAME = scheme
-EXECUTABLE = $(NAME)
-LIBRARY = ./lib
+EXECUTABLE = $(HOME)/bin/$(NAME)
+LIBRARY = $(HOME)/lib/scheme
 
 # flags, configuration
 CONFIG_FLAGS = -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
@@ -41,10 +41,13 @@ DERIVED = $(NAME) *.o lib
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
 
-all:: $(NAME) $(LIBRARY)
+all:: $(EXECUTABLE) $(LIBRARY)
 
-$(EXECUTABLE): $(OFILES)
+$(NAME): $(OFILES)
 	$(CC) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
+
+$(EXECUTABLE): $(NAME)
+	cp -p $(NAME) $(EXECUTABLE)
 
 $(OFILES): $(HFILES)
 
