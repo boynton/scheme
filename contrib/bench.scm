@@ -24,7 +24,7 @@
 ;; I7-3720QM 2.6GHz 1600MHz DDR3, MacBookPro10,1 OSX10.8.5  2.06   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; I7-860 2.80GHz 1067MHz DDR3, iMac11,1 OSX10.9            2.46   * leescheme-5.9, 128MB heap, 64 bit, clang-500.2.79
 ;; Intel Core 2 Duo 2.0GHz/OSX10.8.1                        3.47   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
-;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               8.00   * jell 0.0.1 (macroexpanded, HotSpot  64 bit server VM).
+;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               5.58   * jell 0.1.1 (macroexpanded, HotSpot  64 bit server VM).
 ;; Intel Core i7 2.80GHz/OSX10.8.1                          8.03   * JScheme-0.1, (macroexpanded), 64 bit openjdk 1.7.0-u7-b30, -Xmx128m
 ;;
 ;; Dell Pentium 100, MSVC 4.0, NT 4.0                     150.00   * (estimated) this is the reference machine.
