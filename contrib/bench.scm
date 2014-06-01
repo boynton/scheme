@@ -21,6 +21,7 @@
 ;;
 ;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               1.73   * leeschema-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; I7-860 2.80GHz 1067MHz DDR3, iMac11,1 OSX10.8.1          1.90   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
+;; I7-3740QM 2.7GHz 1600MHz DDR3, MacBookPro10,1 OSX10.9.2  1.97   * leescheme-5.9, 128MB heap, 64 bit, clang-503.0.40
 ;; I7-3720QM 2.6GHz 1600MHz DDR3, MacBookPro10,1 OSX10.8.5  2.06   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; I7-860 2.80GHz 1067MHz DDR3, iMac11,1 OSX10.9            2.46   * leescheme-5.9, 128MB heap, 64 bit, clang-500.2.79
 ;; Intel Core 2 Duo 2.0GHz/OSX10.8.1                        3.47   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
