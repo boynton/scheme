@@ -149,15 +149,14 @@ int main(int argc, char *argv[]) {
 extern void quit(long exit_code) {
     long msec = msec_time_stamp();
     if (timing_info) {
-	printf("\nExecution took %ld.%2ld seconds\n",msec/1000,msec%1000);
+        printf("\nExecution took %ld.%2ld seconds\n",msec/1000,msec%1000);
+        printf("Garbage collected %d times\n", gc_count);
 #ifdef INSTRUMENT_OPS
-	if (1) {
-	    extern int opcount[];
-	    int i;
-	    for (i=0; i<=OPCODE_APPLY; i++) {
-		printf("%d\t%s\n", opcount[i], opcode_name(MAKE_OPCODE(i)));
-	    }
-	}
+        extern int opcount[];
+        int i;
+        for (i=0; i<=OPCODE_APPLY; i++) {
+            printf("%d\t%s\n", opcount[i], opcode_name(MAKE_OPCODE(i)));
+        }
 #endif
     }
     /* close all open files */

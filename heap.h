@@ -51,6 +51,7 @@ extern char *heap, *heap_pointer, *heap_end, *max_memory;
 extern object stack[];
 extern object *stack_top, *stack_bottom;
 extern object *sp;
+extern int gc_count;
 
 #define CHECK_STACK() {\
     if ((sp) > stack_top) error(unbound_object,"stack underflow"); \

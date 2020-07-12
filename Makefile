@@ -10,9 +10,13 @@ NAME = scheme
 EXECUTABLE = $(HOME)/bin/$(NAME)
 LIBRARY = $(HOME)/lib/scheme
 
-# flags, configuration
-CONFIG_FLAGS = -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
-OPTIMIZATIONS = -O3
+# flags, configuration. Used most most GCC benchmarks
+#CONFIG_FLAGS = -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
+#OPTIMIZATIONS = -O3
+# flag that work better for Clang 11
+CONFIG_FLAGS = -DAPPLE -march=native -DX86_64 -DSCMLIB=$(LIBRARY)
+OPTIMIZATIONS = -Ofast
+
 CFLAGS = $(OPTIMIZATIONS) $(CONFIG_FLAGS) $(EXTENSIONS) $(VERSION)
 LDFLAGS = $(CFLAGS)
 CC = gcc

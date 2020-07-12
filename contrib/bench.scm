@@ -9,17 +9,20 @@
 ;
 ; (NOTE: this benchmark doesn't track the increasing available memory well. The 486 DX2-40 had 8MB of RAM,
 ;  so this benchmark was set to use 1/4 of that just for the heap.
-;  Now, the Athlon XP2400 has 1GB of RAM, so a comparable "cost" memory setting would be a 256M heap (not 2 MB!)
-;  Setting the heap to 32MB means no gc's occur anyway. This saves about 16% on the execution time. So, when the heap
-;  is set such that 23 gc's occur, a 16% overhead is measured)
 ;
-; ! On 6/16/2004, I measured the AMD 2400 with a 32MB heap, and it was exactly 100 times faster than the Tosh 1950 (1992).
+;; !! on 11/24/2019, I tested the new MacBookPro16,1. Comparing this to the Toshiba 1950, it is 586 times faster.
+;; !! the Tosh costs $2089 in 1994, that is $3572 in 2019 dollars. That is about the same cost as the new MBP.
+;; !! So, 586x improvement in general compute performance in laptops of similar cost over a 25 year span.
+;;
+;; ! On 6/16/2004, I measured the AMD 2400 with a 32MB heap, and it was exactly 100 times faster than the Tosh 1950 (1992).
 ; ! That is: 100x in 12 years.
 ;
 ;;*** EVEN NEWER: 2012-09-26, changed the benchmark to create and sort a 100000 number list, and a single pi calculation of 1000 digits, and do that 5 times
-;; this appears to run about 15x slower than the previous "new" numbers.
+;; this appears to run about 15x slower than the previous "new" numbers. 128M heap gc's 9 times for this benchmark.
 ;;
+;; i9-9980HK 8 core 2.4GHz/MacOS 10.15.1, MacBookPro16,1    0.97   * leeschema-5.9, 128MB heap, 64 bit, clang-1100.0.33.12 -Ofast -march=native
 ;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               1.73   * leeschema-5.9, 128MB heap, 64 bit, GCC 4.2.1
+;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               1.79   * leeschema-5.9, 128MB heap, 64 bit, clang-1100.0.33.12 -Ofast -march=native
 ;; I7-860 2.80GHz 1067MHz DDR3, iMac11,1 OSX10.8.1          1.90   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; I7-3740QM 2.7GHz 1600MHz DDR3, MacBookPro10,1 OSX10.9.2  1.97   * leescheme-5.9, 128MB heap, 64 bit, clang-503.0.40
 ;; I7-3720QM 2.6GHz 1600MHz DDR3, MacBookPro10,1 OSX10.8.5  2.06   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1
@@ -110,7 +113,7 @@
 ; Dell Pentium 100, MSVC 4.0, NT 4.0           10.0    * this is the reference machine.
 ; AMD Athlon-500, Mandrake7.2/Linux2.4.1       10.0    * gambit C, 3.0 - gsi
 ; Sun HyperSparc 50, GCC, Solaris              13.3
-; Toshiba 40MHz 486DX2, Linux 2.0, GCC2.7.2)   37.9    * minimum acceptable performance.
+; Toshiba 40MHz 486DX2, Linux 2.0, GCC2.7.2)   37.9    * minimum acceptable performance. (1994) In new new numbers, 568.5.
 ;
 ; *** Java implementation:
 ; NOTE: for JDK, assume -ms32m -mx32m
@@ -157,16 +160,16 @@
 ; Dell ME/DGX 50DX2 (nextstep)                  8.6
 ; Toshiba 1950 (40MHz 486DX2 laptop)           10.8	(scheme53, SCC under DOS)
 ;   scheme55, Linux/GCC,                       13.7
-;   scheme55, Linux/GCC, bind primops           8.5	*
+;   scheme55, Linux/GCC, bind primops           8.5	* (in new numbers: xxx, in new new numbers: 
 ;   scheme55, Linux/GCC, no type check          7.7
 ;	scheme53, fully dynamic                13.2
 ;	scheme53, bind-primops                  8.8
 ;	scheme53,no type check (inline car)	8.1
 ;	scm4c5                                   29    !
-; NextStation Turbo (33MHz 68040)              12.5     (in new numbers: 42)
+; NextStation Turbo (33MHz 68040)              12.5     (in new numbers: 42, in new new numbers: 630)
 ; NextStation                                  17.2
-; Next Cube 030                                74.4     (in new numbers: 247)
-; Mac Plus                                    560.0     (in new numbers: 1866)
+; Next Cube 030                                74.4     (in new numbers: 247, in new new numbers: 3705)
+; Mac Plus                                    560.0     (in new numbers: 1866, in new new numbers: 27990)
 ;
 
 (define (provide . args) #t)
@@ -233,6 +236,6 @@
           (benchmark)
           (loop (- i 1)))))
   (print (/ (- (system:timestamp) t0)  1000.0) " seconds total")
-  (print (/ (- (system:timestamp) t0) (* iterations 1000.0)) " secondsper iteration"))
+  (print (/ (- (system:timestamp) t0) (* iterations 1000.0)) " seconds per iteration"))
 
 ;;EOF
