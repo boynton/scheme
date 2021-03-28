@@ -2,23 +2,10 @@
 
 #include "scheme.h"
 
-#ifdef APPLE
-extern double ceil ( double );
-extern double floor ( double );
-extern double drem ( double, double );	/* Legacy API: please use C99 remainder() instead. */
-extern double exp ( double );
-extern double  sin( double );
-extern double  tan( double );
-extern double  cos( double );
-extern double log ( double );
-extern double  asin( double );
-extern double  acos( double );
-extern double  atan2( double, double );
-extern double  atan( double );
-extern double  sqrt( double );
-extern double pow ( double, double );
-#else
 #include <math.h>
+
+#ifdef APPLE
+#define drem remainder
 #endif
 
 #ifdef LINUX

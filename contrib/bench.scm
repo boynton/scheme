@@ -20,7 +20,9 @@
 ;;*** EVEN NEWER: 2012-09-26, changed the benchmark to create and sort a 100000 number list, and a single pi calculation of 1000 digits, and do that 5 times
 ;; this appears to run about 15x slower than the previous "new" numbers. 128M heap gc's 9 times for this benchmark.
 ;;
-;; i9-9980HK 8 core 2.4GHz/MacOS 10.15.1, MacBookPro16,1    0.97   * leeschema-5.9, 128MB heap, 64 bit, clang-1100.0.33.12 -Ofast -march=native
+;; Apple m1 2020 8 core, MacOS 11.2.3, MacMini9,1           0.97   * leeschema-5.9, 128MB heap, 64 bit, clang-1200.0.0 -O3 -arch arm64
+;; i9-9980HK 8 core 2.4GHz/MacOS 10.15.1, MacBookPro16,1    0.97   * leeschema-5.9, 128MB heap, 64 bit, clang-1100.0.33.12 -O3 -arch x86_64
+;; Apple m1 2020 8 core, MacOS 11.2.3, MacMini9,1           1.41   * leeschema-5.9, 128MB heap, 64 bit, clang-1200.0.0 -O3 -arch x86_64 (rosetta 2)
 ;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               1.73   * leeschema-5.9, 128MB heap, 64 bit, GCC 4.2.1
 ;; Xeon E5 6 core 3.5GHz/OSX10.9.2, MacPro6,1               1.79   * leeschema-5.9, 128MB heap, 64 bit, clang-1100.0.33.12 -Ofast -march=native
 ;; I7-860 2.80GHz 1067MHz DDR3, iMac11,1 OSX10.8.1          1.90   * leescheme-5.9, 128MB heap, 64 bit, GCC 4.2.1

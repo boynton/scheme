@@ -11,11 +11,9 @@ EXECUTABLE = $(HOME)/bin/$(NAME)
 LIBRARY = $(HOME)/lib/scheme
 
 # flags, configuration. Used most most GCC benchmarks
-CONFIG_FLAGS = -DAPPLE -arch x86_64 -DX86_64 -DSCMLIB=$(LIBRARY)
+CONFIG_FLAGS = -DAPPLE -DSCMLIB=$(LIBRARY)
+
 OPTIMIZATIONS = -O3
-# flag that work better for Clang 11
-#CONFIG_FLAGS = -DAPPLE -march=native -DX86_64 -DSCMLIB=$(LIBRARY)
-#OPTIMIZATIONS = -Ofast
 
 CFLAGS = $(OPTIMIZATIONS) $(CONFIG_FLAGS) $(EXTENSIONS) $(VERSION)
 LDFLAGS = $(CFLAGS)
@@ -45,19 +43,22 @@ DERIVED = $(NAME) *.o lib
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
 
-all:: $(EXECUTABLE) $(LIBRARY)
+all:: $(NAME)
 
 $(NAME): $(OFILES)
 	$(CC) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
 
 $(EXECUTABLE): $(NAME)
-	cp -p $(NAME) $(EXECUTABLE)
+#	cp -p $(NAME) $(EXECUTABLE)
 
 $(OFILES): $(HFILES)
 
 $(LIBRARY)::
 	mkdir -p $(LIBRARY)
 	cp -p $(SCMFILES) $(LIBRARY)
+
+install:: $(EXECUTABLE) $(LIBRARY)
+	cp -p $(NAME) $(EXECUTABLE)
 
 clean::
 	/bin/rm -rf $(DERIVED) *~ *.bak

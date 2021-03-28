@@ -7,31 +7,10 @@
 
 extern void garbage_collect(long min_bytes);
 
-#ifdef SPARC
-#define IS_ALIGNED(p) ((((unsigned)(p)) & 7) == 0)
-#define ALIGN_BYTE_POINTER(n) ((n + 0x00000007) & 0xfffffff8)
-#define ALIGN_LONG_POINTER(n) ALIGN_BYTE_POINTER(n)
-#define FILL_TO_ALIGN(p,v) if (!IS_ALIGNED(p)) *p = unbound_object;
-#else
-#ifdef X86_64
 #define IS_ALIGNED(p) ((((unsigned long)(p)) & 7) == 0)
 #define ALIGN_BYTE_POINTER(n) ((n + 0x0000000000000007) & 0xfffffffffffffff8)
 #define ALIGN_LONG_POINTER(n) (n)
 #define FILL_TO_ALIGN(p,v)
-#else
-#ifdef AMD64
-#define IS_ALIGNED(p) ((((unsigned long)(p)) & 7) == 0)
-#define ALIGN_BYTE_POINTER(n) ((n + 0x0000000000000007) & 0xfffffffffffffff8)
-#define ALIGN_LONG_POINTER(n) (n)
-#define FILL_TO_ALIGN(p,v)
-#else
-#define IS_ALIGNED(p) ((((unsigned)(p)) & 3) == 0)
-#define ALIGN_BYTE_POINTER(n) ((n + 0x00000003) & 0xfffffffc)
-#define ALIGN_LONG_POINTER(n) (n)
-#define FILL_TO_ALIGN(p,v)
-#endif
-#endif
-#endif
 
 extern object make_heap_object(long type, long size);
 extern void garbage_collect(long min_bytes);

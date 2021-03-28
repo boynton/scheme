@@ -5,8 +5,6 @@
 
 typedef unsigned long object;
 
-#ifndef  POINTERS
-
 #define POINTER_P(_o) (((int)(_o) & 3) == 0)
 #define FIXNUM_P(_o) (((int)(_o) & 3) == 1)
 #define IMMEDIATE_P(_o) (((int)(_o) & 3) == 2)
@@ -16,14 +14,6 @@ typedef unsigned long object;
 #define IMMEDIATE_TYPE(_o) ((_o) & 0x0000003f)
 #define IMMEDIATE_TYPE_P(_o,_t) (IMMEDIATE_TYPE(_o) == _t)
 #define MAKE_IMMEDIATE(_t,_v) ((object)(((_v) << 6) + _t))
-
-#else
-
-#define POINTER_P(_o) (1)
-#define IMMEDIATE_P(_o) (0)
-#define FIXNUM_P(obj) (POINTER_TYPE_P(obj,FIXNUM_TYPE))
-
-#endif
 
 #define POINTER_LENGTH(_o) (((*((long *)(_o))) >> 8) & 0x00ffffff)
 #define POINTER_TYPE(_o) ((*((long *)(_o))) & 255)
